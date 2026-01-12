@@ -8,6 +8,6 @@ courseRouter.get("/course/view", function(req,res){
 courseRouter.post("/course/purchase",function (req, res)  {
 
 })
-module.exports({
+module.exports = {
     courseRouter: courseRouter
-})
+} 
