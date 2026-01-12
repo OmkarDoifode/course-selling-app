@@ -7,7 +7,7 @@ const {courseRouter} = require('./routes/course');
 const app = express();
 
 
-git aapp.use("/user", userRouter);
+app.use("/user", userRouter);
 app.use("/course", courseRouter);
 
 
