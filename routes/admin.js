@@ -10,9 +10,7 @@ adminRouter.post("/signin", function(req, res){
 })
 
 adminRouter.post("/course", function(req, res){
-    res.json({
-        message : "hello tejas"
-    })
+    
 })
 adminRouter.put("/course", function(req, res){
 
