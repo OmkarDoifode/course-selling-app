@@ -18,7 +18,9 @@ adminRouter.put("/course", function(req, res){
 
 })
 adminRouter.get("/course/bulk", function(req, res){
-
+res.json({
+        message : "hello tejas"
+    })
 })
 
 module.exports = {
