@@ -2,10 +2,12 @@ const {Router} = require('express');
 
 const courseRouter = Router();
 
-courseRouter.get("/course/view", function(req,res){
-
+courseRouter.get("/view", function(req,res){
+    res.json({
+        msg : "here are all courses"
+    })
 })
-courseRouter.post("/course/purchase",function (req, res)  {
+courseRouter.post("/purchase",function (req, res)  {
 
 })
 module.exports = {
