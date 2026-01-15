@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const {userRouter} = require('./routes/user');
 const {courseRouter} = require('./routes/course');
 const {adminRouter} = require('./routes/admin');
-
 const app = express();
 
 
@@ -12,8 +11,11 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/course", courseRouter);
 app.use("/api/v1/admin", adminRouter);
 
+async function main() {
+    await mongoose.connect("mongodb+srv://osdoifode2005_db_user:tXVZc4Shcpyy1Kbk@cluster0.cmxn2iw.mongodb.net/coursera-app")
+    app.listen(3000,()=>{
+        console.log("server is listening!");
+    })
+}
 
-
-app.listen(3000,()=>{
-    console.log("server is listening!");
-})
+main();
