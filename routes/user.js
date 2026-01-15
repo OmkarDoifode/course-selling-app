@@ -1,7 +1,12 @@
 const { Router } = require('express');
 const {userModel} = require("../db");
-const { parse } = require('zod');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = "gratefulToHaveGreatsInMyLife";
+
+const {z} = require('zod');
 const userRouter = Router();
+
 
 
 userRouter.post("/signup",async function (req, res){
@@ -12,7 +17,7 @@ userRouter.post("/signup",async function (req, res){
         lastName: z.string().min(1).max(20)
     })
     const parsedDataWithSuccess = requiredBody.safeParse(req.body);
-    if(!parsedDataWithSuccess){
+    if(!parsedDataWithSuccess.success){
         res.json({
             msg: "Incorrect Credentials",
             error: parsedDataWithSuccess.error
@@ -42,6 +47,16 @@ userRouter.post("/signup",async function (req, res){
     }
 })
 userRouter.post("/signin", async function(req, res){
+    const requiredBody = z.object({
+        email: z.string().email(),
+        password: z.string().min(3).max(15)
+    })
+    parsedData = requiredBody.safeParse(req.body);
+    if(!parsedData.success){
+        res.status(403).json({
+            msg: "incorrect inputs"
+        })
+    }
     const {email, password} = req.body;
     const user = await userModel.findOne({
         email: email

@@ -1,6 +1,11 @@
 const { Router } = require('express');
 const {adminModel} = require("../db");
 const adminRouter = Router();
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = "gratefulToHaveGreatsInMyLife";
+
+const bcrypt = require('bcrypt');
+const {z} = require('zod');
 
 adminRouter.post("/signup", async function (req, res){
     const requiredBody = z.object({
@@ -10,7 +15,7 @@ adminRouter.post("/signup", async function (req, res){
         lastName: z.string().min(1).max(20)
     })
     const parsedDataWithSuccess = requiredBody.safeParse(req.body);
-    if(!parsedDataWithSuccess){
+    if(!parsedDataWithSuccess.success){
         res.json({
             msg: "Incorrect Credentials",
             error: parsedDataWithSuccess.error
@@ -40,6 +45,16 @@ adminRouter.post("/signup", async function (req, res){
     }
 })
 adminRouter.post("/signin", async function(req, res){
+    const requiredBody = z.object({
+        email: z.string().email(),
+        password: z.string().min(3).max(15)
+    })
+    parsedData = requiredBody.safeParse(req.body);
+    if(!parsedData.success){
+        res.status(403).json({
+            msg: "incorrect inputs"
+        })
+    }
     const {email, password} = req.body;
     const admin = await adminModel.findOne({
         email: email
