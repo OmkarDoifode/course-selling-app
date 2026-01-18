@@ -2,7 +2,7 @@ const { Router } = require('express');
 const {userModel} = require("../db");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = "gratefulToHaveGreatsInMyLife";
+const { JWT_USER_PASSWORD } = require('../config');
 
 const {z} = require('zod');
 const userRouter = Router();
@@ -71,7 +71,7 @@ userRouter.post("/signin", async function(req, res){
     if(passwordMatch){
         const token = jwt.sign({
             id: user._id.toString()
-        },JWT_SECRET);
+        },JWT_USER_PASSWORD);
         res.json({
             token
         })

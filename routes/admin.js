@@ -2,7 +2,7 @@ const { Router } = require('express');
 const {adminModel} = require("../db");
 const adminRouter = Router();
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = "gratefulToHaveGreatsInMyLife";
+const { JWT_ADMIN_PASSWORD } = require('../config');
 
 const bcrypt = require('bcrypt');
 const {z} = require('zod');
@@ -69,7 +69,7 @@ adminRouter.post("/signin", async function(req, res){
     if(passwordMatch){
         const token = jwt.sign({
             id: admin._id.toString()
-        },JWT_SECRET);
+        },JWT_ADMIN_PASSWORD);
         res.json({
             token
         })
