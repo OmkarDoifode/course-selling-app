@@ -94,11 +94,25 @@ adminRouter.post("/course",adminMiddleware, async function(req, res){
 })
 adminRouter.put("/course",adminMiddleware, async function(req, res){
     const adminId = req.adminId;
-    const courseId = req.body.courseId;
+    const {title, description, imageUrl, price, courseId} = req.body;
+    const course = await courseModel.updateOne({
+        _id: courseId,
+        creatorId: adminId
+    },{
+        title, description, imageUrl, price
+    })
+    res.json({
+        msg: 'course Updated!',
+        courseId: course._id
+    })
 })
-adminRouter.get("/course/bulk", function(req, res){
-res.json({
-        message : "hello tejas"
+adminRouter.get("/course/bulk",adminMiddleware, async function(req, res){
+    const adminId = req.adminId;
+    const courses = await courseModel.find({
+        creatorId: adminId
+    })
+    res.json({
+        courses
     })
 })
 

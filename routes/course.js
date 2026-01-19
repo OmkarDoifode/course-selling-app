@@ -3,7 +3,7 @@ const {courseModel} = require("../db");
 
 const courseRouter = Router();
 
-courseRouter.get("/view", function(req,res){
+courseRouter.get("/preview", function(req,res){
     res.json({
         msg : "here are all courses"
     })

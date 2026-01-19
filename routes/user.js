@@ -81,7 +81,8 @@ userRouter.post("/signin", async function(req, res){
         })
     }
 });
-userRouter.get("/purchases",function (req, res){
+userRouter.get("/purchases", userMiddleware, async function (req, res){
+    const userId = req.userId;
 
 })
 
