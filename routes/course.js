@@ -1,5 +1,7 @@
 const {Router} = require('express');
 const {courseModel} = require("../db");
+const {userMiddleware} = require('../middlewares/user');
+
 
 const courseRouter = Router();
 

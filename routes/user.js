@@ -1,9 +1,9 @@
 const { Router } = require('express');
-const {userModel} = require("../db");
+const {userModel, purchaseModel, courseModel} = require("../db");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { JWT_USER_PASSWORD } = require('../config');
-const {userMiddleware} = require('./middlewares/user');
+const {userMiddleware} = require('../middlewares/user');
 const {z} = require('zod');
 const userRouter = Router();
 
@@ -84,12 +84,22 @@ userRouter.post("/signin", async function(req, res){
 userRouter.get("/purchases", userMiddleware, async function (req, res){
     const userId = req.userId;
 
-    const purchases = await courseModel.find({
+    const purchases = await purchaseModel.find({
         userId
+    })
+    let purchaseCourseIds = [];
+
+    for(let i=0; i<purchases.length; i++){
+        purchaseCourseIds.push(purchases[i].courseId);
+    }
+    
+    const coursesData = await courseModel.find({
+        _id : {$in : purchaseCourseIds}
     })
     
     res.json({
-        purchases
+        purchases,
+        coursesData
     })
 
 })
